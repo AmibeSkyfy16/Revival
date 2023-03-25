@@ -50,6 +50,8 @@ class RevivalMod : ModInitializer {
         registerCommands()
         registerEvents()
         ModItems.registerModItems()
+
+        // TODO add the revival item to loot tables like igloo loot table, etc.
     }
 
     private fun registerCommands() = CommandRegistrationCallback.EVENT.register { dispatcher, _, _ ->

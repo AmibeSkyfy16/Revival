@@ -169,6 +169,7 @@ tasks {
     val copyJarToTestServer = register("copyJarToTestServer") {
         println("copy to server")
         copyFile("build/libs/${project.properties["archives_name"]}-${project.properties["mod_version"]}.jar", project.property("testServerModsFolder") as String)
+        copyFile("build/libs/${project.properties["archives_name"]}-${project.properties["mod_version"]}.jar", project.property("testClientModsFolder") as String)
     }
 
     build { doLast { copyJarToTestServer.get() } }
