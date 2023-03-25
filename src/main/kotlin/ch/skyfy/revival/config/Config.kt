@@ -13,10 +13,10 @@ data class Config(
     // How many times a player can be revived
     val maximumRevive: Int = 5,
 
-    val maximumWanderTimeInMinute: Int = 5,
+    val maximumWanderTimeInMinute: Int = 25,
 
     // Will define a square where the ghost cannot go beyond
-    val maximumWanderBox: Int = 10,
+    val maximumWanderBox: Int = 30,
 
-    val revivedPlayerHealth: Float = 2f
+    val revivedPlayerHealth: Float = 4f
 ) : Validatable
