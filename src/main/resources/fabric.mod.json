@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "revival",
+  "version": "${version}",
+  "name": "revival",
+  "description": "Add the revival artifact item",
+  "authors": [
+    "Skyfy16"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/revival/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "ch.skyfy.revival.RevivalMod"
+      }
+    ]
+  },
+  "mixins": [
+    "revival.mixin.json"
+  ],
+  "depends": {
+    "java": ">=17",
+    "minecraft": "1.19.4",
+    "fabricloader": ">=0.14.17",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.9.2+kotlin.1.8.10"
+  }
+}
