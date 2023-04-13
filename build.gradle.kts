@@ -7,8 +7,8 @@ val transitiveInclude: Configuration by configurations.creating
 
 plugins {
     id("fabric-loom") version "1.1-SNAPSHOT"
-    id("org.jetbrains.kotlin.jvm") version "1.8.10"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("org.jetbrains.kotlin.jvm") version "1.8.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
     idea
 }
 
@@ -40,7 +40,7 @@ dependencies {
 
     handleIncludes(project, transitiveInclude)
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.20")
 }
 
 tasks {
@@ -131,30 +131,29 @@ tasks {
         withJavadocJar()
     }
 
+    named<Wrapper>("wrapper") {
+        gradleVersion = "8.1"
+        distributionType = Wrapper.DistributionType.BIN
+    }
+
     named<Javadoc>("javadoc") {
         options {
             (this as CoreJavadocOptions).addStringOption("Xdoclint:none", "-quiet")
         }
     }
 
-    named<Wrapper>("wrapper") {
-        gradleVersion = "8.0.2"
-        distributionType = Wrapper.DistributionType.BIN
+    named<Jar>("jar") {
+        from("LICENSE") { rename { "${it}_${base.archivesName.get()}" } }
     }
 
-    named<KotlinCompile>("compileKotlin") {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         kotlinOptions.jvmTarget = javaVersion.toString()
+//        kotlinOptions.freeCompilerArgs += "-Xskip-prerelease-check" // Required by others project like SilkMC. Also add this to intellij setting under Compiler -> Kotlin Compiler -> Additional ...
     }
 
-    named<JavaCompile>("compileJava") {
+    withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
         options.release.set(javaVersion.toString().toInt())
-    }
-
-    named<Jar>("jar") {
-        from("LICENSE") {
-            rename { "${it}_${base.archivesName.get()}" }
-        }
     }
 
     named<Test>("test") {
@@ -168,8 +167,8 @@ tasks {
 
     val copyJarToTestServer = register("copyJarToTestServer") {
         println("copy to server")
-        copyFile("build/libs/${project.properties["archives_name"]}-${project.properties["mod_version"]}.jar", project.property("testServerModsFolder") as String)
-        copyFile("build/libs/${project.properties["archives_name"]}-${project.properties["mod_version"]}.jar", project.property("testClientModsFolder") as String)
+//        copyFile("build/libs/${project.properties["archives_name"]}-${project.properties["mod_version"]}.jar", project.property("testServerModsFolder") as String)
+//        copyFile("build/libs/${project.properties["archives_name"]}-${project.properties["mod_version"]}.jar", project.property("testClientModsFolder") as String)
     }
 
     build { doLast { copyJarToTestServer.get() } }
